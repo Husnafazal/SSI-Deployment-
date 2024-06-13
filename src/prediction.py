@@ -5,7 +5,7 @@ import joblib
 
 app = FastAPI()
 
-model_path = './models/_model_name.pkl'  # Adjust the model file name as needed
+model_path = './models/ssi_model.pkl'
 
 # Load the model
 try:
@@ -25,4 +25,4 @@ async def predict(request: PredictionRequest):
     # Convert the list of features into a numpy array and reshape for prediction
     features_array = np.array(request.features).reshape(1, -1)
     prediction = model.predict(features_array)
-    return {"prediction": prediction.tolist()}  # Convert numpy array to list for JSON serialization
+    return {"prediction": prediction.tolist()}  # Convert numpy array to list for JSON serializationg
