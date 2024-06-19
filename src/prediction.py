@@ -2,14 +2,22 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import numpy as np
 import joblib
+from tensorflow.keras.models import load_model
+import pickle
+
 
 app = FastAPI()
 
-model_path = './models/ssi_model.pkl'
+model_path = '../models/ssi_model.pkl'
 
 # Load the model
 try:
-    model = joblib.load(model_path)
+    print("+++++++++++++++++++")
+    model =pickle.load(open(model_path,"rb"))
+    Print(model)
+    print("==============================================")
+
+
 except FileNotFoundError:
     print(f"Model file not found at {model_path}. Please check the file path and name.")
     raise HTTPException(status_code=500, detail="Model file not found on server")
