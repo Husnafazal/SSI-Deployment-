@@ -2,9 +2,6 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import numpy as np
 import joblib
-from tensorflow.keras.models import load_model
-import pickle
-
 
 app = FastAPI()
 
@@ -12,12 +9,8 @@ model_path = '../models/ssi_model.pkl'
 
 # Load the model
 try:
-    print("+++++++++++++++++++")
-    model =pickle.load(open(model_path,"rb"))
-    Print(model)
-    print("==============================================")
-
-
+    model = joblib.load(model_path)
+    print("Model loaded successfully")
 except FileNotFoundError:
     print(f"Model file not found at {model_path}. Please check the file path and name.")
     raise HTTPException(status_code=500, detail="Model file not found on server")
@@ -33,4 +26,4 @@ async def predict(request: PredictionRequest):
     # Convert the list of features into a numpy array and reshape for prediction
     features_array = np.array(request.features).reshape(1, -1)
     prediction = model.predict(features_array)
-    return {"prediction": prediction.tolist()}  # Convert numpy array to list for JSON serializationg
+    return {"prediction": prediction.tolist()}  # Convert numpy array to list for JSON serialization
